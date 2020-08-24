@@ -64,6 +64,8 @@ public class ValidationErrorDetails extends ErrorDetail{
             validationErrorDetails.setDeveloperMessage(this.developerMessage);
             validationErrorDetails.setTimestamp(this.timestamp);
             validationErrorDetails.setTitle(this.title);
+            validationErrorDetails.setField(this.field);
+            validationErrorDetails.setFieldMessage(this.fieldMessage);
             return validationErrorDetails;
         }
     }
