@@ -3,10 +3,12 @@ package pt.com.devdojo.awesome.error;
 public class ErrorDetail {
 
     private String title;
-    private int Status;
+    private int status;
     private String detail;
     private long timestamp;
     private String developerMessage;
+
+
 
     public String getTitle() {
         return title;
@@ -17,11 +19,11 @@ public class ErrorDetail {
     }
 
     public int getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(int status) {
-        Status = status;
+        this.status = status;
     }
 
     public String getDetail() {
@@ -46,5 +48,59 @@ public class ErrorDetail {
 
     public void setDeveloperMessage(String developerMessage) {
         this.developerMessage = developerMessage;
+    }
+
+    public static final class Builder {
+        private String title;
+        private int status;
+        private String detail;
+        private long timestamp;
+        private String developerMessage;
+
+        private Builder() {
+        }
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder status(int status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder detail(String detail) {
+            this.detail = detail;
+            return this;
+        }
+
+        public Builder timestamp(long timestamp) {
+            this.timestamp = timestamp;
+            return this;
+        }
+
+        public Builder developerMessage(String developerMessage) {
+            this.developerMessage = developerMessage;
+            return this;
+        }
+
+        public Builder but() {
+            return newBuilder().title(title).status(status).detail(detail).timestamp(timestamp).developerMessage(developerMessage);
+        }
+
+        public ErrorDetail build() {
+            ErrorDetail errorDetail = new ErrorDetail();
+            errorDetail.setTitle(title);
+            errorDetail.setStatus(status);
+            errorDetail.setDetail(detail);
+            errorDetail.setTimestamp(timestamp);
+            errorDetail.setDeveloperMessage(developerMessage);
+            return errorDetail;
+        }
     }
 }
