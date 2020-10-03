@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pt.com.devdojo.awesome.error.ResourceNotFoundException;
 import pt.com.devdojo.awesome.model.Student;
+import pt.com.devdojo.awesome.model.User;
 import pt.com.devdojo.awesome.repository.StudentRepository;
+import pt.com.devdojo.awesome.repository.UserRepository;
 
 
 import javax.validation.Valid;
@@ -30,6 +32,7 @@ public class StudentEndpoint {
     public StudentEndpoint( StudentRepository studentRepository) {
 
         this.studentRepository = studentRepository;
+
     }
 
     @GetMapping
@@ -78,5 +81,7 @@ public class StudentEndpoint {
              if(studentRepository.findOne(id) == null)
             throw new ResourceNotFoundException("Student not found for id:" + id);
     }
+
+
 
 }

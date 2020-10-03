@@ -6,10 +6,18 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pt.com.devdojo.awesome.service.CustomUserDetailService;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    @Autowired
+    private CustomUserDetailService customUserDetailService;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
@@ -21,11 +29,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("eduardo").password("edu10").roles("USER")
-                .and()
-                .withUser("admin").password("admin").roles("USER","ADMIN");
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("eduardo").password("edu10").roles("USER")
+//                .and()
+//                .withUser("admin").password("admin").roles("USER","ADMIN");
+//    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(customUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
+
+
     }
 }

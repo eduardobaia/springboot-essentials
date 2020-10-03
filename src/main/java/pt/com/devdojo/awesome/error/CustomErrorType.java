@@ -1,5 +1,7 @@
 package pt.com.devdojo.awesome.error;
 
+import pt.com.devdojo.awesome.model.User;
+
 public class CustomErrorType {
 
     private String errorMessage;
@@ -11,4 +13,7 @@ public class CustomErrorType {
     public String getErrorMessage() {
         return errorMessage;
     }
+
+
+
 }
