@@ -23,7 +23,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 @RestController
-@RequestMapping("students")
+@RequestMapping("v1")
 public class StudentEndpoint {
 
     private final StudentRepository studentRepository;
@@ -35,19 +35,19 @@ public class StudentEndpoint {
 
     }
 
-    @GetMapping
+    @GetMapping(path = "protected/students")
     public ResponseEntity<?> listAll(Pageable pageable){
 
         return new ResponseEntity<>(studentRepository.findAll(pageable),HttpStatus.OK);
     }
 
 
-    @GetMapping(path = "/findByName/{name}")
+    @GetMapping(path = "protected/students/findByName/{name}")
     public ResponseEntity<?> findStudentByName(@PathVariable String name){
         return new ResponseEntity<>(studentRepository.findByNameIgnoreCaseContaining(name), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "protected/students/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails){
         System.out.println(userDetails);
 
@@ -55,14 +55,14 @@ public class StudentEndpoint {
         return new ResponseEntity<>(studentRepository.findOne(id), HttpStatus.OK );
     }
 
-    @PostMapping
+    @PostMapping(path = "admin/students")
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> save (@Valid @RequestBody Student student){
 
         return new ResponseEntity<>(studentRepository.save(student), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "admin/students/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete (@PathVariable Long id){
         verifyIfStudentExist(id);
@@ -70,7 +70,7 @@ public class StudentEndpoint {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(path = "admin/students")
     public ResponseEntity<?> update (@RequestBody Student student){
         verifyIfStudentExist(student.getId());
         studentRepository.save(student);
